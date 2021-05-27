@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:state_management/models/user.dart';
-import 'package:state_management/services/user_service.dart';
 
 class FirstPage extends StatelessWidget {
   @override
@@ -9,15 +7,7 @@ class FirstPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('First Page'),
       ),
-      body: StreamBuilder<User>(
-          stream: userService.userStream,
-          builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-            return snapshot.hasData
-                ? UserData(user: snapshot.data!)
-                : Center(
-                    child: Text('No User Data'),
-                  );
-          }),
+      body: UserData(),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.accessibility_new),
         onPressed: () => Navigator.pushNamed(context, 'second'),
@@ -27,8 +17,7 @@ class FirstPage extends StatelessWidget {
 }
 
 class UserData extends StatelessWidget {
-  final User user;
-  const UserData({Key? key, required this.user}) : super(key: key);
+  const UserData({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +30,11 @@ class UserData extends StatelessWidget {
         children: [
           Text('General', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           Divider(),
-          ListTile(title: Text('Name: ${user.name}')),
-          ListTile(title: Text('Age: ${user.age}')),
+          ListTile(title: Text('Name: ')),
+          ListTile(title: Text('Age: ')),
           Text('Professions', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           ListTile(title: Text('Profession 1: ')),
-          ListTile(title: Text('Profession 2: ')),
+          ListTile(title: Text('Profession 1: ')),
         ],
       ),
     );

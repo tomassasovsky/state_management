@@ -5,7 +5,7 @@ class User {
 
   User({
     required this.name,
-    this.age = 18,
-    this.professions = const [],
-  }) : assert(name.isNotEmpty);
+    required this.age,
+    required this.professions,
+  });
 }
