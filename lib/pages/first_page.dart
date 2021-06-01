@@ -1,23 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:state_management/controllers/user_controller.dart';
+import 'package:state_management/models/user.dart';
 
 class FirstPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final userController = Get.put(UserController());
     return Scaffold(
       appBar: AppBar(
         title: Text('First Page'),
       ),
-      body: UserData(),
+      body: Obx(
+        () => userController.userExists.value ? UserData(user: userController.user!.value) : NoData(),
+      ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.accessibility_new),
-        onPressed: () => Navigator.pushNamed(context, 'second'),
+        onPressed: () => Get.toNamed('second', arguments: {
+          'name': 'Tomás',
+          'age': 35,
+        }),
       ),
     );
   }
 }
 
+class NoData extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text('No User Data'),
+    );
+  }
+}
+
 class UserData extends StatelessWidget {
-  const UserData({Key? key}) : super(key: key);
+  final User user;
+  const UserData({Key? key, required this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +49,10 @@ class UserData extends StatelessWidget {
         children: [
           Text('General', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           Divider(),
-          ListTile(title: Text('Name: ')),
-          ListTile(title: Text('Age: ')),
+          ListTile(title: Text('Name: ${this.user.name}')),
+          ListTile(title: Text('Age: ${this.user.age}')),
           Text('Professions', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-          ListTile(title: Text('Profession 1: ')),
-          ListTile(title: Text('Profession 1: ')),
+          ...user.professions.map((profession) => ListTile(title: Text(profession))),
         ],
       ),
     );
