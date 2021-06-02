@@ -5,7 +5,7 @@ class User {
 
   User({
     required this.name,
-    required this.age,
-    required this.professions,
+    this.age = 18,
+    this.professions = const [],
   });
 }
